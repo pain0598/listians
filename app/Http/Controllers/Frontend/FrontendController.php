@@ -62,10 +62,11 @@ class FrontendController extends Controller
         }])->where(['show_at_home' => 1, 'status' => 1])->get();
 
         $featuredLocations = Location::where(['show_at_home' => 1, 'status' => 1])->get();
+        
 
         $featuredLocations->each(function($location) {
             $location->listings = $location->listings()
-            ->withAvg(['reviews' => function($query) {
+                ->withAvg(['reviews' => function($query) {
                 $query->where('is_approved', 1);
             }], 'rating')
             ->withCount(['reviews' => function($query) {
@@ -75,6 +76,11 @@ class FrontendController extends Controller
             ->orderBy('id', 'desc')
             ->take(8)->get();
         });
+
+        
+
+        
+
 
 
         // featured listings
